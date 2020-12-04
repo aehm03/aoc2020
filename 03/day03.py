@@ -1,4 +1,5 @@
-from math import  prod
+from math import prod
+
 
 def main():
     landscape = []
