@@ -1,4 +1,5 @@
 import math
+from itertools import count
 
 
 def main():
@@ -40,24 +41,20 @@ def chinese_remainder(mod_remain):
 
 
 def main2():
-    for input, solution in tests:
-        bus_offset = [(int(m), i) for i, m in enumerate(input.split(',')) if m.isdigit()]
-        mod_remain = [(bus, (bus - offset) % bus) for bus, offset in bus_offset]
-        print(chinese_remainder(mod_remain) == solution)
-
     with open('input', 'r') as f:
         data = [l.strip() for l in f.readlines()]
 
     bus_offset = [(int(m), i) for i, m in enumerate(data[1].split(',')) if m.isdigit()]
-    mod_remain = [(bus, (bus - offset) % bus) for bus, offset in bus_offset]
-    print(chinese_remainder(mod_remain))
+
+    n = bus_offset[0][0]
+    step = 1
+    for b, offset in bus_offset:
+        n = next(c for c in count(n, step) if (c + offset) % b == 0)
+        step *= b
+
+    print(n)
 
 
 if __name__ == '__main__':
-    tests = [('7,13,x,x,59,x,31,19', 1068781),
-            ('17,x,13,19', 3417),
-            ('67,7,59,61', 754018),
-            ('67,x,7,59,61', 779210),
-            ('67,7,x,59,61', 1261476),
-            ('1789,37,47,1889', 1202161486)]
+    main()
     main2()
