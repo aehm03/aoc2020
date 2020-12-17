@@ -19,19 +19,18 @@ def run(space, steps, dims):
             neighbors = coord.get_neighbors(dims)
             count = count_cells(space, neighbors)
 
+            # only add active cells
             if (value == 1 and 2 <= count <= 3) or (value == 0 and count == 3):
                 new_space[coord] = 1
-            else:
-                new_space[coord] = 0
 
             for new_coord in neighbors:
                 if new_coord not in space.keys() and new_coord not in new_space.keys():
                     new_neighbors = new_coord.get_neighbors(dims)
 
+                    # only add active cells
                     if count_cells(space, new_neighbors) == 3:
                         new_space[new_coord] = 1
-                    else:
-                        new_space[new_coord] = 0
+
         space = new_space
 
     return sum(space.values())
